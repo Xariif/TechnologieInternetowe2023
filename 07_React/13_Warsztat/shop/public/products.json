@@ -105,7 +105,7 @@
         "variations": [
             {
                 "image": "https:\/\/lamyonline.pl\/app\/uploads\/2021\/10\/lamy_070_ideos_fountain_pen_pd.png",
-                "regular_price": 590,
+                "+": 590,
                 "price": 590,
                 "variation_id": 31435,
                 "show_gallery": true,

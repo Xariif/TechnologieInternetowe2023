@@ -2,18 +2,35 @@ import {useState, useEffect} from "react";
 import {Row} from "react-bootstrap";
 import {Link} from "react-router-dom"
 import ProductItem from "../components/ProductItem";
+import { useApi } from "../hooks/useApi";
 
 const Home = () => {
     const [pens, setPens] = useState([]);
     const [basket, setBasket] = useState([]);
-    useEffect(() => {
+  
+    /*
+      useEffect(() => {
         fetch("http://localhost:3000/products")
-            .then(res => res.json())
+            .then(res => console.log(res))
             .then(res => setPens(res))
             .catch(error => console.log(error))
     }, [])
+    */
+
+    const usapi = useApi( { method: "GET", url: "products" } );
+
+
+    useEffect(() => {
+        usapi.requestApi();
+    }
+    , []);
+    
+
+
+
     return (
         <>
+        test
             <Row>
                 <ul>
                     {
