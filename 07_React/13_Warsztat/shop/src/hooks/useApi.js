@@ -1,27 +1,29 @@
 import { useCallback, useState } from "react";
 import axios from "axios";
+import useNotfication from "./useNotification";
 
 export const useApi = () => {
 	const axiosInstance = axios.create();
 
-	const [result, setResult] = useState([]);
-	const [error, setError] = useState(null);
-	const [loading, setLoading] = useState(false);
+	const { setLoader, setError } = useNotfication();
 
-	const requestApi = useCallback(async () => {
-		setLoading(true);
+	const requestApi = async ({ method, url, data }) => {
+		setLoader(true);
+
 		try {
-			const res = await axios.request({ method, url, data });
-			const json = await res.json();
-			setResult(json);
+			const res = await axios({ method: method, url: url, data });
+
+			const json = await res.data.products;
+			return json;
 		} catch (e) {
+			console.log("e", e);
 			setError(e);
 		} finally {
-			setLoading(false);
+			setTimeout(() => setLoader(false), 500);
 		}
-	}, [method, url, data]);
+	};
 
-	return { result, error, loading, requestApi };
+	return { requestApi };
 };
 
 export default useApi;

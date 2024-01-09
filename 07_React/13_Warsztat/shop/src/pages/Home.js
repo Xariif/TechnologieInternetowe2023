@@ -1,59 +1,59 @@
-import {useState, useEffect} from "react";
-import {Row} from "react-bootstrap";
-import {Link} from "react-router-dom"
+import { useState, useEffect } from "react";
+import { Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import ProductItem from "../components/ProductItem";
 import { useApi } from "../hooks/useApi";
+import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import ProductsService from "../services/ProductsService";
 
 const Home = () => {
-    const [pens, setPens] = useState([]);
-    const [basket, setBasket] = useState([]);
-  
-    /*
-      useEffect(() => {
-        fetch("http://localhost:3000/products")
-            .then(res => console.log(res))
-            .then(res => setPens(res))
-            .catch(error => console.log(error))
-    }, [])
-    */
+	const Item = styled(Paper)(({ theme }) => ({
+		backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+		...theme.typography.body2,
+		padding: theme.spacing(1),
+		textAlign: "center",
+		color: theme.palette.text.secondary,
+	}));
 
-    const usapi = useApi( { method: "GET", url: "products" } );
+	const service = ProductsService();
 
+	const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        usapi.requestApi();
-    }
-    , []);
-    
+	useEffect(() => {
+		service.getProducts().then((response) => {
+			setProducts(response);
+		});
+	}, []);
 
 
 
-    return (
-        <>
-        test
-            <Row>
-                <ul>
-                    {
-                        basket.map((el, i) => <li key={i}>{el.title}</li>)
-                    }
-                </ul>
-                {
-                    Boolean(basket.length)
-                    &&
-                    <>
-                        <h2 style={{color: "magenta"}}>Suma: {basket.reduce((prev, curr) => prev + curr.price, 0)} zł</h2>
-                        <Link to={`/summary/${basket.reduce((prev, curr) => prev + curr.price, 0)}`}>Podsumowanie</Link>
-                    </>
-                }
-            </Row>
-            <Row>
-                {
-                    pens.map((el) => <ProductItem data={el} addToBasket={setBasket} key={el.slug} />)
-                }
-            </Row>
-        </>
 
-    );
+
+
+
+	return (
+		<>
+		
+			{ products && (
+				<>
+					<Grid container spacing={1}>
+						{products.map((product,index) => (
+							<Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+								<Item elevation={0} key={product.id}> 
+									<ProductItem product={product} />
+								</Item>
+							</Grid>
+						))}
+					</Grid>
+				</>
+			)}
+		</>
+	);
 };
 
 export default Home;
+
+

@@ -1,7 +1,6 @@
 import { BrowserRouter, createBrowserRouter, Outlet, Route, RouterProvider, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ErrorPage from "./pages/ErrorPage";
-import Product from "./pages/Product";
 import Summary from "./pages/Summary";
 import {Container} from "react-bootstrap";
 import Nav from 'react-bootstrap/Nav';
@@ -17,7 +16,6 @@ function App() {
           <Route path="/" element={<Layout content={<Outlet />} />}>
            <Route path="/" element={<Home />} />
             <Route path="/summary" element={<Summary />} />
-            <Route  path="/product/:id" element={<Product />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
 
